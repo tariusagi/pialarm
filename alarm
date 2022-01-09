@@ -55,7 +55,10 @@ def main():
 		else:
 			print >> sys.stderr, 'ERROR: Unrecognized option. Use "-h" for usage.'
 			sys.exit(2)
-	if len(args) > 0:
+	if len(args) == 0:
+			print >> sys.stderr, 'ERROR: No action provided. Use "-h" for usage.'
+			sys.exit(3)
+	else:
 		GPIO.setwarnings(False)
 		GPIO.setmode(GPIO.BOARD)
 		GPIO.setup(pin, GPIO.OUT)
