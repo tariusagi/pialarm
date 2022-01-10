@@ -1,15 +1,16 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import os
 import sys
 import getopt
 import RPi.GPIO as GPIO
 from time import sleep
 
-VERSION = "0.2"
+VERSION = "0.3"
 PROGRAM = os.path.basename(__file__)
-USAGE = """%s version %s.
+USAGE = f"""\
+{PROGRAM} version {VERSION}.
 Sound an alarm (active buzzer) via GPIO pin.
-Syntax: %s [OPTION] [on|off]
+Syntax: {VERSION} [OPTION] [on|off]
 OPTION:
 -h      Display this help and exit.
 -i sec  Set interval in seconds between alarms (float, default 0.5).
@@ -20,8 +21,7 @@ on      Turn the alarm on.
 off     Turn the alarm off.
 
 For circuit design, see https://github.com/tariusagi/ulcd.
-
-""" % (PROGRAM, VERSION, PROGRAM)
+"""
 
 def main():
 	# Parameters.
@@ -38,7 +38,7 @@ def main():
 	try:
 		opts, args = getopt.getopt(sys.argv[1:], 'hi:n:p:t:')
 	except getopt.error as err:
-		print >> sys.stderr, 'ERROR: %s. Use "-h" for usage.' % str(err)
+		print(f'ERROR: {str(err)}. Use "-h" for usage.', file = sys.stderr)
 		sys.exit(1)
 	for o, v in opts:
 		if o == '-h':
@@ -53,34 +53,35 @@ def main():
 		elif o == '-t':
 			duration = float(v)
 		else:
-			print >> sys.stderr, 'ERROR: Unrecognized option. Use "-h" for usage.'
+			print('ERROR: Unrecognized option. Use "-h" for usage.', file = sys.stderr)
 			sys.exit(2)
 	if len(args) == 0:
-			print >> sys.stderr, 'ERROR: No action provided. Use "-h" for usage.'
+			print('ERROR: No action provided. Use "-h" for usage.', file = sys.stderr)
 			sys.exit(3)
 	else:
 		GPIO.setwarnings(False)
 		GPIO.setmode(GPIO.BOARD)
+		print(f"Use physical pin {pin}")
 		GPIO.setup(pin, GPIO.OUT)
 		action = args[0]
 		if action == "on":
 			if duration is None:
-				print "Turn the alarm on at physical pin", pin
+				print(f"Alarm on")
 				GPIO.output(pin, 1)
 			else:
 				while repeats:
 					# Turn the alarm on.
-					print "Turn the alarm on at physical pin", pin
+					print("Alarm on")
 					GPIO.output(pin, 1)
-					print "Wait for", duration, "seconds"
+					print(f"Wait {duration}s")
 					sleep(duration)
-					print "Turn the alarm off at physical pin", pin
+					print("Alarm off")
 					GPIO.output(pin, 0)
 					if repeats > 1:
 						sleep(interval)
 					repeats -= 1
 		elif action == "off":
-			print "Turn the alarm off at physical pin", pin
+			print("Alarm off")
 			GPIO.output(pin, 0)
  
 if __name__ == '__main__':
