@@ -15,7 +15,7 @@ OPTION:
 -h      Display this help and exit.
 -i sec  Set interval in seconds between alarms (float, default 0.5).
 -n num  Repeat alarm "num" times (default 1).
--p num  Set the GPIO physical pin number (default 29).
+-p num  Set the GPIO BCM pin (default 23, which is physical 16, wiringPi 4).
 -t sec  Set the alarm duration in second (float, default indefinitely).
 on      Turn the alarm on.
 off     Turn the alarm off.
