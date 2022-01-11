@@ -15,7 +15,7 @@ OPTION:
 -h      Display this help and exit.
 -i sec  Set interval in seconds between alarms (float, default 0.5).
 -n num  Repeat alarm "num" times (default 1).
--p num  Set the GPIO physical pin number (default 29).
+-p num  Set the GPIO BCM pin (default 23, which is physical 16, wiringPi 4).
 -t sec  Set the alarm duration in second (float, default indefinitely).
 on      Turn the alarm on.
 off     Turn the alarm off.
@@ -25,7 +25,7 @@ For circuit design, see https://github.com/tariusagi/ulcd.
 
 def main():
 	# Parameters.
-	pin = 29
+	pin = 23
 	action = None
 	repeats = 1
 	interval = 0.5
@@ -60,8 +60,8 @@ def main():
 			sys.exit(3)
 	else:
 		GPIO.setwarnings(False)
-		GPIO.setmode(GPIO.BOARD)
-		print(f"Use physical pin {pin}")
+		GPIO.setmode(GPIO.BCM)
+		print(f"Use BCM pin {pin}")
 		GPIO.setup(pin, GPIO.OUT)
 		action = args[0]
 		if action == "on":
@@ -83,6 +83,7 @@ def main():
 		elif action == "off":
 			print("Alarm off")
 			GPIO.output(pin, 0)
+		GPIO.cleanup()
  
 if __name__ == '__main__':
 	main()
