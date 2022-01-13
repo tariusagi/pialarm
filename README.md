@@ -3,9 +3,7 @@ Simple alarm system on a Raspberry Pi
 
 ## alarm
 
-A Python 3 program to sound an buzzer via a GPIO pin.
-
-This is a Python 2 program. It requires the `RPi.GPIO` package. Install it with `pip install rpi.gpio`.
+A Python 3 program to sound an buzzer via a GPIO pin. It requires the `RPi.GPIO` package. Install it with `pip install rpi.gpio`.
 
 Usage: 
 
