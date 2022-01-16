@@ -10,7 +10,7 @@ PROGRAM = os.path.basename(__file__)
 USAGE = f"""\
 {PROGRAM} version {VERSION}.
 Sound an alarm (active buzzer) via GPIO pin.
-Syntax: {VERSION} [OPTION] [on|off]
+Syntax: {PROGRAM} [OPTION] [on|off]
 OPTION:
 -h      Display this help and exit.
 -i sec  Set interval in seconds between alarms (float, default 0.5).
@@ -62,28 +62,30 @@ def main():
 		GPIO.setwarnings(False)
 		GPIO.setmode(GPIO.BCM)
 		print(f"Use BCM pin {pin}")
-		GPIO.setup(pin, GPIO.OUT)
+		#  sleep(0.1)
 		action = args[0]
 		if action == "on":
+			GPIO.setup(pin, GPIO.OUT)
 			if duration is None:
 				print(f"Alarm on")
 				GPIO.output(pin, 1)
 			else:
 				while repeats:
 					# Turn the alarm on.
-					print("Alarm on")
+					print(f"Alarm on for {duration}s")
 					GPIO.output(pin, 1)
-					print(f"Wait {duration}s")
 					sleep(duration)
 					print("Alarm off")
 					GPIO.output(pin, 0)
 					if repeats > 1:
+						print(f"Wait {interval}s")
 						sleep(interval)
 					repeats -= 1
+				GPIO.setup(pin, GPIO.IN)
 		elif action == "off":
 			print("Alarm off")
-			GPIO.output(pin, 0)
-		GPIO.cleanup()
+			#  GPIO.output(pin, 0)
+			GPIO.setup(pin, GPIO.IN)
  
 if __name__ == '__main__':
 	main()
